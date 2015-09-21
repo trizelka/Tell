@@ -25,8 +25,8 @@ func NewUserController(s *mgo.Session) *UserController {
 	return &UserController{s}
 }
 
-func sendGCMMessages(code int, from string, to string, name string, messages string){
-        data := map[string]interface{}{"code": code, "snumber":from, "sname":name, "messages":messages}
+func sendGCMMessages(code int, from string, to string, name string, email string, messages string){
+        data := map[string]interface{}{"code": code, "snumber":from, "sname":name, "semail":email, "messages":messages}
 
         client := gcm.New("AIzaSyB5Nnu1fM0y_nDIJzVt7PHrlel2mGvMa_s")
         load := gcm.NewMessage("1021501583544")
@@ -86,7 +86,7 @@ func (uc UserController) SendMessages(w http.ResponseWriter, r *http.Request, p 
                 return
         }
 
-        sendGCMMessages(1,from,u.Regid,u.Name,messages);
+        sendGCMMessages(1,from,u.Regid,u.Name,u.Email,messages);
 
         // Marshal provided interface into JSON structure
         uj, _ := json.Marshal(u)
