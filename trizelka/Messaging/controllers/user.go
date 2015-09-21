@@ -114,21 +114,6 @@ func (uc UserController) CreateUser(w http.ResponseWriter, r *http.Request, p ht
 	u.Id = bson.NewObjectId()
 
 	if mth == "add_user" {uc.session.DB("hereiam").C("users").Insert(u)}
-	if mth == "update_regid" {
-		if err := uc.session.DB("hereiam").C("users").Find(bson.M{"phone":u.Phone}).One(&u); err != nil {
-                w.WriteHeader(404)
-                return
-	        }
- 
-		query := bson.M{"name":u.Name,"email":u.Email,"phone":u.Phone}
-        	update := bson.M{"regid":u.Regid}
- 		// Update Register id user
-        	if err := uc.session.DB("hereiam").C("users").Update(query,update); err != nil {
-                	w.WriteHeader(404)
-                	return
-        	}
-	}
-
 
 	// Marshal provided interface into JSON structure
 	uj, _ := json.Marshal(u)
